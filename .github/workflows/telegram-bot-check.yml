@@ -1,0 +1,26 @@
+name: PROSTAFF Telegram Bot Check
+
+on:
+  push:
+    branches: [main, ai-agent-foundation]
+    paths:
+      - "telegram-bot/**"
+      - ".github/workflows/telegram-bot-check.yml"
+  pull_request:
+    paths:
+      - "telegram-bot/**"
+      - ".github/workflows/telegram-bot-check.yml"
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: telegram-bot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run check
