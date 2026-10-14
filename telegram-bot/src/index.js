@@ -30,7 +30,7 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON && process.env.FIREBASE_STORAGE_BU
 
 const bot = new Bot(token);
 const T = {
-  welcome: "Assalomu alaykum! 👋\n" + brand + " — ishchi bo‘lish va PROSTAFF haqida ma’lumot olish uchun yordamchi.\nTanlang:",
+  welcome: "Assalomu alaykum! 👋\n" + brand + " — ishchi bo‘lish va PROSTAFF haqida ma’lumot olish uchun yordamchi.\nUmumiy savollarga AI javob berishi mumkin. Pasport rasmi va maxfiy ma’lumotlarni oddiy xabar qilib yubormang.\nTanlang:",
   worker: "👷 Ishchi bo‘lish", order: "🧹 Xizmat buyurtmasi", faq: "ℹ️ Savol-javob", operator: "🆘 Operator",
   consent: "Ishchi arizasini ko‘rib chiqish uchun ism-familiya, telefon, hudud, ish ko‘nikmalari va pasport/ID rasmi yig‘iladi. Ma’lumotlar arizani ko‘rib chiqish va siz bilan bog‘lanish uchun ishlatiladi. Hujjatlarni faqat vakolatli PROSTAFF xodimlari ko‘rishi kerak. Davom etishga rozimisiz?",
   name: "Pasportingizdagi kabi ism va familiyangizni yozing.",
