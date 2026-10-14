@@ -1,35 +1,35 @@
-# PROSTAFF Telegram Bot — MVP
+# PROSTAFF Telegram Bot
 
-The first Telegram intake bot for PROSTAFF. This is a workflow-based MVP, not yet an LLM-powered agent and not connected to the production booking database.
+Telegram onboarding assistant for people applying to become PROSTAFF workers.
 
 ## Features
-- Uzbek-language menu
-- Service request intake: service, area, address, date/time, worker count, task details, phone
-- Worker application intake: name, area, skills, experience, phone
-- Operator request notifications
-- Forwards confirmed requests to a configured admin chat
-- Does not claim a booking or employment is final
+- Gets explicit consent before collecting personal data.
+- Collects full name, city/area, phone, skills, experience and passport/ID images.
+- Saves applications to Firestore collection `workerApplications`, with status `pending_review`.
+- Uploads document images to Firebase Storage at `worker-applications/<applicationId>/`.
+- Does not forward passport images to the admin Telegram chat; admin notifications contain application metadata only.
+- Provides basic automatic FAQ answers and an operator contact path.
 
-## Requirements
+## Setup
 - Node.js 20+
-- A bot token from @BotFather
-- Optional private Telegram admin chat ID
+- Telegram bot token from @BotFather
+- Firebase project with Firestore and Storage enabled
+- Server-side Firebase service account with appropriate access
+- Private admin Telegram chat ID (recommended)
 
-## Run locally
-1. Copy .env.example to .env.
-2. Add the token from @BotFather to BOT_TOKEN.
-3. Run npm install, then npm start.
-4. Open the bot in Telegram and send /start.
-5. Send /myid to obtain your numeric chat ID. Set it as ADMIN_CHAT_ID in .env and restart the bot.
+1. Copy `.env.example` to `.env`.
+2. Set `BOT_TOKEN`, `ADMIN_CHAT_ID`, `FIREBASE_SERVICE_ACCOUNT_JSON` and `FIREBASE_STORAGE_BUCKET`.
+3. Run `npm install` then `npm start`.
+4. Open the bot and send `/start`.
 
-Never commit .env or share the bot token. If a token is exposed, revoke it through @BotFather and create a new one.
+Never commit `.env`, service-account JSON, bot tokens, or passport images. If credentials are exposed, revoke/rotate them.
 
-## Current limitations
-- Session and unfinished forms are stored in process memory; restarting clears them.
-- Requests are forwarded to the admin chat; there is no persistent database integration yet.
-- The bot does not yet read/write the PROSTAFF PWA, Firebase, or Supabase data.
-- No LLM is connected yet. Current workflows are deterministic.
-- No payment, pricing decision, worker assignment, or final booking confirmation is automated.
+## Personal-data safeguards
+Keep the Storage bucket private and restrict Firestore/Storage access to trusted server/admin identities. Define a retention and deletion policy and explain to applicants how to request deletion. Confirm applicable personal-data laws and get legal review before production use.
 
-## Next milestone
-Choose the authoritative production data source (existing Firebase PWA or Supabase-backed Expo app). Then add persistent request storage and authenticated admin review before adding AI interpretation.
+## Limitations
+- This is an onboarding MVP, not yet a full generative AI assistant. FAQ answers are rule-based; an LLM provider still needs to be connected for open-ended answers.
+- In-progress conversations are in memory and reset if the process restarts.
+- The new `workerApplications` collection has not yet been unified with the existing client/worker app schemas.
+- No automatic hiring, salary promise, payments, or job assignment.
+- Without Firebase server secrets, the bot will not submit worker applications.
